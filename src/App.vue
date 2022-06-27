@@ -37,9 +37,20 @@
           </span>
         </li>
         <li class="nav-item">
-
+          <form class="form-inline my-2 my-lg-0">
+            <input class="search_input" type="search" placeholder="Quick Search" aria-label="Search">
+            <button class="search_btn" type="submit">Search</button>
+            <!-- <b-button
+              type="submit"
+              variant="primary"
+              style="width:100px;display:block;"
+              class="mx-auto w-100"
+              >Search</b-button
+            > -->
+          </form>
         </li>
       </ul>
+      
     </div>
 
     <router-view />
@@ -95,7 +106,11 @@ export default {
   padding-left: 10px;
 }
 
+#nav li form {
+  padding-left: 1100px;
+}
+
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #2fe288;
 }
 </style>
