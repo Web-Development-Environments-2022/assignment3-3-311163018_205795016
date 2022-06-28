@@ -76,8 +76,8 @@ export default {
 <style scoped>
 .recipe-preview {
   display: inline-block;
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: 100%;
   position: relative;
   margin: 10px 10px;
 }
@@ -93,7 +93,7 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   display: inline-block;
-  width: 65%;
+  width: 45%;
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;

@@ -9,8 +9,8 @@
             Recipes just for you
           </h2>       
 
-          <div class="row row-cols-1 row-cols-md-2">
-            <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
+          <div class="row row-cols-md-3 ">
+            <div class="col md-3" v-for="r in recipes_result" :key="r.id">
                 <RecipeRandomPreview class="recipePreview" :recipe="r" />
             </div>
           </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="col no-gutter">
       <div class = "rightside no-gutter">
-        <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
+        <!-- <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" /> -->
         <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
         {{ !$root.store.username }}
         <RecipePreviewList
@@ -98,6 +98,9 @@ export default {
 .RandomRecipes {
   margin: 10px 0 10px;
 }
+// .container{
+//   width: 100%;
+// }
 .blur {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
   filter: blur(2px);
