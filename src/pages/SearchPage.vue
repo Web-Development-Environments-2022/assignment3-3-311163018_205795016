@@ -18,12 +18,55 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
+      <div class="form-check form-check-inline" id="filterby">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+        <label class="form-check-label" for="inlineCheckbox1">Vegan</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+        <label class="form-check-label" for="inlineCheckbox2">Vegentarian</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+        <label class="form-check-label" for="inlineCheckbox3">Gluten Free</label>
+      </div>
       <b-button
         type="submit"
         variant="primary"
         style="width:100px;display:block;"
         class="mx-auto w-100"
         >Search</b-button>
+
+      <!--radio inline for number of results to return -->
+      <label for="number_of_res">Number of results : </label>
+      <div class="form-check form-check-inline" id="number_of_res">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="form.NumberOfResults" value="5">
+        <label class="form-check-label" for="inlineRadio1">5</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="form.NumberOfResults" value="10">
+        <label class="form-check-label" for="inlineRadio2">10</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="form.NumberOfResults" value="15">
+        <label class="form-check-label" for="inlineRadio3">15</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="inf" disabled>
+        <label class="form-check-label" for="inlineRadio3">1,000,000</label>
+      </div>
+      <br> 
+      <label for="Sortrby">Sort by :</label>
+      <div class="form-check form-check-inline" id="Sortby">
+        <input class="form-check-input" type="radio" name="inlineRadioOptionsSort" v-model="this.form.key_sort" value="readyInMinutes">
+        <label class="form-check-label" for="inlineCheckbox1">Time (minutes)</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptionsSort" v-model="this.form.key_sort" value="popularity">
+        <label class="form-check-label" for="inlineCheckbox2">Popularity (likes)</label>
+      </div>       
+
+
 
       <div class="mt-2">
         Looking for an idea ?
@@ -70,10 +113,13 @@ export default {
       form: {
         query: "",
         submitError: undefined,
-        NumberOfResults: "5"
+        NumberOfResults: "5",
+        key_sort: "readyInMinutes"
       },
       recipes_result: [],
-      total_number_of_results : "0"
+      total_number_of_results : "0",
+      NumberOfResults: "5",
+      key_sort: "readyInMinutes"
     };
   },
   validations: {
@@ -93,7 +139,8 @@ export default {
     },
     async Search() {
       try {
-        
+        console.log("*********************---***************");
+        console.log("http://localhost:3000" +"/recipes/search/"+this.form.query+"-"+this.form.NumberOfResults);
         const response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/user/Login",
           "http://localhost:3000" +"/recipes/search/"+this.form.query+"-"+this.form.NumberOfResults,
@@ -106,20 +153,41 @@ export default {
         );
         // console.log(response);
         // this.$root.loggedIn = true;
-        console.log(this.form.query);
-        console.log("*********************---***************");
-        console.log(response.data);
         const res_data = response.data.results;
-        this.recipes_result = [];
-        this.recipes_result.push(...res_data);
-        this.total_number_of_results = response.data.total_number_of_results;
+        let recipes_ids_separated_by_comma ="";
+        console.log("res_data = " +res_data);
+        for (let i=0;i<res_data.length -1;i++) {
+          recipes_ids_separated_by_comma+=res_data[i].id +",";
+        }
+        recipes_ids_separated_by_comma+=res_data[res_data.length-1].id;
+        console.log(recipes_ids_separated_by_comma);
+        try {
+          console.log("*********************---***************");
+          console.log("http://localhost:3000" +"/recipes/recipes_preview/"+recipes_ids_separated_by_comma+"-"+this.form.key_sort);
+          const detailed_response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/user/Login",
+            "http://localhost:3000" +"/recipes/recipes_preview/"+recipes_ids_separated_by_comma+"-"+this.form.key_sort,
+            // "http://132.72.65.211:80/Login",
+            // "http://132.73.84.100:80/Login",
+
+            {
+              query: this.form.query
+            }
+          );
+          const detailed_data =detailed_response.data;
+          this.recipes_result = [];
+          this.recipes_result.push(...detailed_data);
+          this.total_number_of_results = response.data.total_number_of_results;
+        } catch (err) {
+          console.log(err);
+        }      
+        
+
       
 
         // this.$root.store.login(this.form.query);
         // this.$router.push("/");
       } catch (err) {
-        console.log(err.response);
-        console.log(err);
         console.log(err);
         // this.form.submitError = err.response.data.message;
       }
@@ -132,7 +200,6 @@ export default {
         return;
       }
       console.log("search method go");
-
       this.Search();
     }
   }

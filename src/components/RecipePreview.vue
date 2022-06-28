@@ -14,7 +14,7 @@
       </div>
       <ul class="recipe-overview" >
         <li v-if="ready_time"> {{ recipe.readyInMinutes }} minutes </li>
-        <li v-if="like_exist">{{ recipe.aggregateLikes }} likes </li>
+        <li v-if="like_exist">{{ recipe.popularity }} likes </li>
       </ul>
     </div>
   </router-link>
@@ -26,18 +26,18 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
-    this.recipe.readyInMinutes.then((i) => {
-      this.ready_time =true;
-    });
-    this.recipe.aggregateLikes.then((i) => {
-      this.like_exist =true;
-    });    
+    // this.recipe.readyInMinutes.then((i) => {
+    //   this.ready_time =true;
+    // });
+    // this.recipe.aggregateLikes.then((i) => {
+    //   this.like_exist =true;
+    // });    
   },
   data() {
     return {
       image_load: false,
-      ready_time: false,
-      like_exist: false
+      ready_time: true,
+      like_exist: true
     };
   },
   props: {
