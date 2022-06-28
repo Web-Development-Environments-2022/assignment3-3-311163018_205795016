@@ -1,4 +1,6 @@
 <template>
+
+
   <router-link
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview"
@@ -10,9 +12,9 @@
       <div :title="recipe.title" class="recipe-title">
         {{ recipe.title }}
       </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
+      <ul class="recipe-overview" >
+        <li v-if="ready_time"> {{ recipe.readyInMinutes }} minutes </li>
+        <li v-if="like_exist">{{ recipe.aggregateLikes }} likes </li>
       </ul>
     </div>
   </router-link>
@@ -24,10 +26,18 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
+    this.recipe.readyInMinutes.then((i) => {
+      this.ready_time =true;
+    });
+    this.recipe.aggregateLikes.then((i) => {
+      this.like_exist =true;
+    });    
   },
   data() {
     return {
-      image_load: false
+      image_load: false,
+      ready_time: false,
+      like_exist: false
     };
   },
   props: {
@@ -66,7 +76,7 @@ export default {
 <style scoped>
 .recipe-preview {
   display: inline-block;
-  width: 90%;
+  width: 100%;
   height: 100%;
   position: relative;
   margin: 10px 10px;
@@ -102,7 +112,7 @@ export default {
   font-size: 12pt;
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
