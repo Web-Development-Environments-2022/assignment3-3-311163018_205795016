@@ -56,7 +56,7 @@
               <b-dropdown-item >Family</b-dropdown-item>
             </b-nav-item-dropdown>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
 
           <form class="form-inline my-2 my-lg-0">
             <input class="search_input" type="search" placeholder="Quick Search" aria-label="Search">
@@ -64,7 +64,7 @@
 
           </form>
 
-        </li>
+        </li> -->
       </ul>
       
     </div>
@@ -103,7 +103,7 @@ export default {
   color: #2c3e50;
   min-height: 100vh;
   background-image: url("https://t4.ftcdn.net/jpg/04/18/75/65/360_F_418756555_8rIk7lbPvAlRErWmPMeMHqilhCHzYLWW.jpg");
-  background-repeat: no-repeat;
+  // background-repeat: no-repeat;
   background-size: 2000px 1000px;
 }
 
