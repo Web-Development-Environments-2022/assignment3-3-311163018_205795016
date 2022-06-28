@@ -17,37 +17,53 @@
     <div id="nav">
       <ul class="nav">
         <li class="nav-item">
+          <b-nav-item>
           <router-link :to="{ name: 'main' }">Foodify</router-link>
-
+          </b-nav-item>
           <!-- <a class="nav-link active" href="#">Active</a> -->
         </li>
         <li class="nav-item">
+          <b-nav-item>
           <router-link :to="{ name: 'search' }">Search</router-link>
           {{ !$root.store.username }}
+          </b-nav-item>
+
         </li>
         <li class="nav-item">
+          <b-nav-item>
+
           <span v-if="!$root.store.username">
             Guest:
             <router-link :to="{ name: 'register' }">Register</router-link>
             <a></a>
             <router-link :to="{ name: 'login' }">Login</router-link>
           </span>
+          
           <span v-else>
             {{ $root.store.username }}: <button @click="Logout">Logout</button>|
           </span>
+          </b-nav-item>
+
         </li>
         <li class="nav-item">
+            <b-nav-item-dropdown >
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                User
+              </template>
+              <b-dropdown-item >Favorites</b-dropdown-item>
+              <b-dropdown-item >Private</b-dropdown-item>
+              <b-dropdown-item >Family</b-dropdown-item>
+            </b-nav-item-dropdown>
+        </li>
+        <li class="nav-item">
+
           <form class="form-inline my-2 my-lg-0">
             <input class="search_input" type="search" placeholder="Quick Search" aria-label="Search">
             <button class="search_btn" type="submit">Search</button>
-            <!-- <b-button
-              type="submit"
-              variant="primary"
-              style="width:100px;display:block;"
-              class="mx-auto w-100"
-              >Search</b-button
-            > -->
+
           </form>
+
         </li>
       </ul>
       
@@ -56,6 +72,8 @@
     <router-view />
 
   </div>
+
+  
 </template>
 
 <script>
@@ -91,7 +109,7 @@ export default {
 
 
 #nav {
-  padding: 15px;
+  padding: 5px;
   background: #5d7fdd;
 
 }
@@ -102,15 +120,15 @@ export default {
 }
 
 #nav li{
-  padding-left: 15px;
+  padding-left: 5px;
 }
 
 #nav li span a{
-  padding-left: 10px;
+  padding-left: 15px;
 }
 
 #nav li form {
-  padding-left: 1100px;
+  padding-left: 1300px;
 }
 
 #nav a.router-link-exact-active {
