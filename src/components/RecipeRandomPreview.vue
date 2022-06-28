@@ -26,12 +26,12 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
-    this.recipe.readyInMinutes.then((i) => {
-      this.ready_time =true;
-    });
-    this.recipe.aggregateLikes.then((i) => {
-      this.like_exist =true;
-    });    
+    // this.recipe.readyInMinutes.then((i) => {
+    //   this.ready_time =true;
+    // });
+    // this.recipe.aggregateLikes.then((i) => {
+    //   this.like_exist =true;
+    // });    
   },
   data() {
     return {
@@ -93,7 +93,7 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   display: inline-block;
-  width: 45%;
+  width: 65%;
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;

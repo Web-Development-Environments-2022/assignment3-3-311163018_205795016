@@ -30,9 +30,9 @@ export default {
       recipes: []
     };
   },
-  mounted() {
-    this.updateRecipes();
-  },
+  // mounted() {
+  //   this.updateRecipes();
+  // },
   methods: {
     async updateRecipes() {
       try {
