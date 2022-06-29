@@ -20,11 +20,11 @@
 
       <div class="form-check form-check-inline" id="filterby">
         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-        <label class="form-check-label" for="inlineCheckbox1">Vegan</label>
+        <label class="form-check-label" for="inlineCheckbox1">&#x1F165;Vegan</label>
       </div>
       <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-        <label class="form-check-label" for="inlineCheckbox2">Vegentarian</label>
+        <label class="form-check-label" for="inlineCheckbox2">&#x1f331;Vegentarian</label>
       </div>
       <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">

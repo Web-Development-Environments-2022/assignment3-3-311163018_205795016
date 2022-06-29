@@ -11,10 +11,13 @@
     <div class="recipe-footer">
       <div :title="recipe.title" class="recipe-title">
         {{ recipe.title }}
+        <li v-if="is_glutenFree()">GlutenFree &#10003;</li>
+        <li v-if="is_vegan()"> &#x1F165; </li>
+        <li v-if="is_vegetarian()">&#x1f331;</li>
       </div>
       <ul class="recipe-overview" >
-        <li v-if="ready_time"> {{ recipe.readyInMinutes }} minutes </li>
-        <li v-if="like_exist">{{ recipe.popularity }} likes </li>
+        <li v-if="ready_time"> {{ recipe.readyInMinutes }} Minutes</li>
+        <li v-if="like_exist">{{ recipe.popularity }} &#9829; </li>
       </ul>
     </div>
   </router-link>
@@ -25,19 +28,24 @@ export default {
   mounted() {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
-    });
-    // this.recipe.readyInMinutes.then((i) => {
-    //   this.ready_time =true;
-    // });
-    // this.recipe.aggregateLikes.then((i) => {
-    //   this.like_exist =true;
-    // });    
+    });  
   },
   data() {
     return {
-      image_load: false,
-      ready_time: true,
-      like_exist: true
+      form: {
+        image_load: false,
+        ready_time: true,
+        like_exist: true,
+        vegetarian: false,
+        vegan : false,
+        glutenFree: false
+      },
+        image_load: false,
+        ready_time: true,
+        like_exist: true,
+        vegetarian: false,
+        vegan : false,
+        glutenFree: false
     };
   },
   props: {
@@ -69,6 +77,18 @@ export default {
     //     return undefined;
     //   }
     // }
+  },
+
+  methods: {
+    is_glutenFree() {
+      return this.recipe.glutenFree;
+    },
+    is_vegan() {
+      return this.recipe.vegan;
+    },
+    is_vegetarian(){
+      return this.recipe.vegetarian;
+    }
   }
 };
 </script>
