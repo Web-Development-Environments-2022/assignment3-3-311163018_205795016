@@ -80,10 +80,26 @@
 export default {
   name: "App",
   methods: {
-    Logout() {
+    async Logout() {
       this.$root.store.logout();
-      this.$root.toast("Logout", "User logged out successfully", "success");
+      try {
+        
+        const response = await this.axios.post(
+          // "https://test-for-3-2.herokuapp.com/user/Login",
+          // this.$root.store.server_domain +"/Login",
+          "http://localhost:3000" +"/Logout",           
+          // "http://132.72.65.211:80/Login",
+          // "http://132.73.84.100:80/Login",
 
+          {
+            
+          }
+        );
+        this.$root.store.logout();
+        this.$root.toast("Logout", "User logged out successfully", "success");
+      } catch (err) {
+        console.log(err);
+      }      
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
@@ -98,9 +114,10 @@ export default {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #040705;
   min-height: 100vh;
   width: 100%;
   background-image: url("https://t4.ftcdn.net/jpg/04/18/75/65/360_F_418756555_8rIk7lbPvAlRErWmPMeMHqilhCHzYLWW.jpg");

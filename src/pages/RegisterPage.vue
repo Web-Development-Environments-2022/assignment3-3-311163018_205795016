@@ -5,7 +5,7 @@
       <b-form-group
         id="input-group-username"
         label-cols-sm="3"
-        label="Username:"
+        label="UserName:"
         label-for="username"
       >
         <b-form-input
@@ -24,6 +24,34 @@
           Username alpha
         </b-form-invalid-feedback>
       </b-form-group>
+
+<!-- First Name [e.g Eminem] -->
+      <b-form-group
+        id="input-group-confirmedfirstName"
+        label-cols-sm="3"
+        label="First Name :"
+        label-for="confirmedfirstName"
+      >
+        <b-form-input
+          id="confirmedfirstName"
+          type="firstName"
+          v-model="this.form.firstName"
+        ></b-form-input>
+      </b-form-group>      
+
+<!-- Last name [e.g ohh s**t the e.g from first name f*** us...] -->
+      <b-form-group
+        id="input-group-confirmedlastName"
+        label-cols-sm="3"
+        label="Last Name :"
+        label-for="confirmedlastName"
+      >
+        <b-form-input
+          id="confirmedlastName"
+          type="lastName"
+          v-model="this.form.lastName"
+        ></b-form-input>
+      </b-form-group> 
 
       <b-form-group
         id="input-group-country"
@@ -90,6 +118,18 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
+      <b-form-group
+        id="input-group-confirmedEmail"
+        label-cols-sm="3"
+        label="Email :"
+        label-for="confirmedEmail"
+      >
+        <b-form-input
+          id="confirmedEmail"
+          type="email"
+          v-model="this.form.email"
+        ></b-form-input>
+      </b-form-group>
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button
         type="submit"
@@ -135,6 +175,7 @@ export default {
   data() {
     return {
       form: {
+        userid: "0",
         username: "",
         firstName: "",
         lastName: "",
@@ -183,11 +224,17 @@ export default {
       try {
         const response = await this.axios.post(
           // "https://test-for-3-2.herokuapp.com/user/Register",
-          this.$root.store.server_domain + "/Register",
+          // this.$root.store.server_domain + "/Register",
+          "http://localhost:3000" +"/Register",          
 
           {
+            ID:this.form.userid,
             username: this.form.username,
-            password: this.form.password
+            first_name: this.form.firstName,
+            last_name:this.form.lastName,
+            country:this.form.country,
+            password: this.form.password,
+            email:this.form.email
           }
         );
         this.$router.push("/login");
