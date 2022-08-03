@@ -9,9 +9,10 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
-            </div>
+              <div><b>Ready in {{ recipe.readyInMinutes }} minutes</b></div>
+              <div><b>Likes: {{ recipe.popularity }} likes</b></div>
+              <div><b>Servings: {{ recipe.servings }} servings</b></div>
+            </div><b>
             Ingredients:
             <ul>
               <li
@@ -20,14 +21,14 @@
               >
                 {{ r.original }}
               </li>
-            </ul>
+            </ul></b>
           </div>
-          <div class="wrapped">
+          <div class="wrapped" v-show="recipe.instructions">
             Instructions:
-            <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
+            <ol> {{ recipe.instructions }}
+              <!-- <li v-for="s in recipe.instructions" :key="s.number">
                 {{ s.step }}
-              </li>
+              </li> -->
             </ol>
           </div>
         </div>
@@ -77,9 +78,10 @@ export default {
         analyzedInstructions,
         instructions,
         extendedIngredients,
-        aggregateLikes,
+        popularity,
         readyInMinutes,
         image,
+        servings,
         title
       } = response.data;
 
@@ -95,9 +97,10 @@ export default {
         _instructions,
         analyzedInstructions,
         extendedIngredients,
-        aggregateLikes,
+        popularity,
         readyInMinutes,
         image,
+        servings,
         title
       };
 
@@ -115,6 +118,7 @@ export default {
 }
 .wrapped {
   width: 50%;
+  background-color: bisque;
 }
 .center {
   display: block;
