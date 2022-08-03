@@ -4,7 +4,7 @@
     <div class="col no-gutter">
       <div class="leftside no-gutter">
     
-        <b-container v-if="ViewSearchResults()">
+        <!-- <b-container v-if="ViewSearchResults()">
           <h2>
             Recipes just for you
           </h2>       
@@ -12,26 +12,46 @@
           <div class="row row-cols-md-3 ">
             <div class="col md-3" v-for="r in recipes_result" :key="r.id">
                 <RecipeRandomPreview class="recipePreview" :recipe="r" />
+
             </div>
           </div>
+
         
-        </b-container>
+        </b-container> -->
+          <div>
+            <br><br><br>
+            <b-button pill variant="info" @click="randomSearch()">Random</b-button>
+          </div>
       </div>
     </div>
     <div class="col no-gutter">
       <div class = "rightside no-gutter">
+        <div v-if="!$root.store.username">
+        <LoginPageComp></LoginPageComp>
+        </div>
         <!-- <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" /> -->
-        <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
-        {{ !$root.store.username }}
-        <RecipePreviewList
-          title="Last Viewed Recipes"
-          :class="{
-            RandomRecipes: true,
-            blur: !$root.store.username,
-            center: true
-          }"
-          disabled
-        ></RecipePreviewList>
+        <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
+        {{ $root.store.username }}
+        <b-container v-if="ViewSearchResults()">
+        <div class="row row-cols-1 row-cols-md-2">
+          <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
+              <RecipePreview title=recipe.title class="recipePreview" :recipe="r" />
+          </div>
+        </div>
+        </b-container>
+        <!-- <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
+          <RecipePreviewList
+            title="Last Viewed Recipes"
+            
+            :class="{
+              recipePreview,
+              RandomRecipes: true,
+              blur: !$root.store.username,
+              center: true
+            }"
+            :recipe="r"
+          ></RecipePreviewList>
+        </div> -->
       </div>
     </div>
     <!-- <div
@@ -46,11 +66,13 @@
 import RecipePreviewList from "../components/RecipePreviewList";
 import RecipePreview from "../components/RecipePreview";
 import RecipeRandomPreview from "../components/RecipeRandomPreview";
+import LoginPageComp from "../components/LoginPageComp";
 export default {
   components: {
-    RecipePreviewList,
-    //RecipePreview,
-    RecipeRandomPreview
+    //RecipePreviewList,
+    RecipePreview,
+    //RecipeRandomPreview,
+    LoginPageComp
   },
   data(){
     return{
@@ -68,6 +90,7 @@ export default {
         const response = await this.axios.get(
             "http://localhost:3000" +"/mainPage"
         );
+        console.log(response)
         console.log("*********************---***************");
         console.log(response.data[0]);
         const res_data = response.data[0];
