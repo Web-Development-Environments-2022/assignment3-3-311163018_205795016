@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <div class="col no-gutter">
-      <div class="leftside no-gutter">
+    <!-- <div class="col no-gutter"> -->
+      <!-- <div class="leftside no-gutter"> -->
     
         <b-container v-if="ViewSearchResults()">
           <h2>
@@ -22,16 +22,21 @@
             <br><br><br>
             <b-button pill variant="info" @click="randomSearch()">Random</b-button>
           </div>
-      </div>
-    </div>
+      <!-- </div> -->
+    <!-- </div> -->
     <div class="col no-gutter">
-      <div class = "rightside no-gutter">
+      <!-- <div class = "rightside no-gutter"> -->
         <div v-if="!$root.store.username">
         <LoginPageComp></LoginPageComp>
         </div>
         <!-- <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" /> -->
         <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
+        <div v-if="$root.store.username">
+
         <b style="background :wheat "  >{{ $root.store.username }}</b>
+          <h2>
+            Last Recipes you watched:
+          </h2> 
         <b-container v-if="ViewSearchResults()">
         <div class="row row-cols-md-3 ">
           <div class="col md-3" v-for="r in recipes_result[3]" :key="r.id">
@@ -52,7 +57,8 @@
             :recipe="r"
           ></RecipePreviewList>
         </div> -->
-      </div>
+      <!-- </div> -->
+    </div>
     </div>
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
