@@ -4,20 +4,20 @@
     <div class="col no-gutter">
       <div class="leftside no-gutter">
     
-        <!-- <b-container v-if="ViewSearchResults()">
+        <b-container v-if="ViewSearchResults()">
           <h2>
             Recipes just for you
           </h2>       
 
           <div class="row row-cols-md-3 ">
-            <div class="col md-3" v-for="r in recipes_result" :key="r.id">
+            <div class="col md-3" v-for="r in recipes_result.slice(0,3)" :key="r.id">
                 <RecipeRandomPreview class="recipePreview" :recipe="r" />
 
             </div>
           </div>
 
         
-        </b-container> -->
+        </b-container>
           <div>
             <br><br><br>
             <b-button pill variant="info" @click="randomSearch()">Random</b-button>
@@ -31,11 +31,11 @@
         </div>
         <!-- <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" /> -->
         <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
-        {{ $root.store.username }}
+        <b style="background :wheat "  >{{ $root.store.username }}</b>
         <b-container v-if="ViewSearchResults()">
-        <div class="row row-cols-1 row-cols-md-2">
-          <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
-              <RecipePreview title=recipe.title class="recipePreview" :recipe="r" />
+        <div class="row row-cols-md-3 ">
+          <div class="col md-3" v-for="r in recipes_result[3]" :key="r.id">
+              <RecipeRandomPreview  class="recipePreview" :recipe="r" />
           </div>
         </div>
         </b-container>
@@ -70,8 +70,8 @@ import LoginPageComp from "../components/LoginPageComp";
 export default {
   components: {
     //RecipePreviewList,
-    RecipePreview,
-    //RecipeRandomPreview,
+    //RecipePreview,
+    RecipeRandomPreview,
     LoginPageComp
   },
   data(){
@@ -88,20 +88,28 @@ export default {
     async randomSearch() {
       try{
         const response = await this.axios.get(
-            "http://localhost:3000" +"/mainPage"
+            "http://localhost:3000" +"/mainPage",{withCredentials: true}
         );
         console.log(response)
-        console.log("*********************---***************");
+        console.log("*********************-1-***************");
         console.log(response.data[0]);
+        console.log(response.data[1]);
         const res_data = response.data[0];
-        console.log("*********************---***************");
+        console.log("*********************-2-***************");
         console.log(res_data);
 
         this.recipes_result = [];
         this.recipes_result.push(...res_data);
-        console.log("*********************---***************");
+        console.log("*********************-3-***************");
         console.log(this.recipes_result);
         this.total_number_of_results = response.data.total_number_of_results;
+        if (response.data[1]){
+          this.recipes_result.push(response.data[1]);
+          this.total_number_of_results = response.data.total_number_of_results;
+        }
+        console.log(this.recipes_result);
+        console.log("checking");
+        console.log(this.recipes_result[3]);
       
       } catch (err) {
         console.log(err.response);

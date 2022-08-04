@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
+//axios.defaults.withCredentials = true;
+import VueCookies from 'vue-cookies'
 
 import routes from "./routes";
 import VueRouter from "vue-router";
@@ -9,6 +11,8 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
 });
+Vue.use(require('vue-cookies'));
+Vue.use(VueCookies, { expire: '7d'});
 
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
