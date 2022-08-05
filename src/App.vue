@@ -41,6 +41,7 @@
           
           <span v-else>
             {{ $root.store.username }}: <button @click="Logout">Logout</button>|
+            <router-link :to="{ name: 'create' }">Create Recipe</router-link>
           </span>
           </b-nav-item>
 
