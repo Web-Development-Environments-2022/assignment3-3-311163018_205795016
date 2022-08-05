@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-//axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 import VueCookies from 'vue-cookies'
 
 import routes from "./routes";

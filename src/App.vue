@@ -45,16 +45,18 @@
           </b-nav-item>
 
         </li>
-        <li class="nav-item">
+        
+        <li class="nav-item" v-if="$root.store.username">
             <b-nav-item-dropdown >
               <!-- Using 'button-content' slot -->
               <template #button-content>
                 User
               </template>
-              <b-dropdown-item >Favorites</b-dropdown-item>
-              <b-dropdown-item >Private</b-dropdown-item>
-              <b-dropdown-item >Family</b-dropdown-item>
+              <b-dropdown-item ><router-link :to="{ name: 'Favorites' }">Favorites</router-link></b-dropdown-item>
+              <b-dropdown-item ><router-link :to="{ name: 'Private' }">Private</router-link></b-dropdown-item>
+              <b-dropdown-item ><router-link :to="{ name: 'Family' }">Family</router-link></b-dropdown-item>
             </b-nav-item-dropdown>
+            
         </li>
         <!-- <li class="nav-item">
 
