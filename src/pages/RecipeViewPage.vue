@@ -63,17 +63,11 @@ export default {
           //   // params: { id: this.$route.params.recipeId }
           // }
         );
-
-        // console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
+        if (response.status !== 200) {this.$router.replace("/NotFound")};
       } catch (error) {
-        console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
         return;
       }
-      console.log("--------(*&^(&^%*^*&^*&_____________---------");
-      console.log(response);
-      console.log(response.data);
       let {
         analyzedInstructions,
         instructions,
@@ -84,7 +78,7 @@ export default {
         servings,
         title
       } = response.data;
-
+      console.log("81, response.data:",response.data);
       let _instructions = analyzedInstructions
       //   .map((fstep) => {
       //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
@@ -105,6 +99,8 @@ export default {
       };
 
       this.recipe = _recipe;
+      console.log("102, this.recipe:",this.recipe);
+      console.log("103, response.data:",response.data);    
     } catch (error) {
       console.log(error);
     }
