@@ -100,6 +100,19 @@
       <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
     </b-card> -->
+  
+    <b-container v-if="ViewCreation">
+      <h2>
+        Creating is a wonderful felling ! <br> Enjoy your creation : 
+      </h2>       
+
+      <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
+            <RecipePreview class="recipePreview" :recipe="r" />
+        </div>
+      </div>
+    </b-container>
+
   </div>    
 </template>
 <script>
@@ -107,6 +120,9 @@ import { required } from "vuelidate/lib/validators";
 import RecipePreview from "../components/RecipePreview";
 export default {
   name: "CreateRecipe",
+  components: {
+    RecipePreview
+  }, 
   data() {
     return {
       form: {
@@ -122,6 +138,7 @@ export default {
         number_of_dishes: "",
         submitError: undefined
       },
+      recipes_result : [],
       errors: [],
       validated: false
     };
@@ -174,6 +191,20 @@ export default {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
+      this.recipes_result.push({
+            id:this.form.recipeid,
+            title: this.form.recipetitle,
+            readyInMinutes: this.form.readyInMinutes,
+            image: this.form.image,
+            popularity: this.form.popularity,
+            vegan: this.form.vegan,
+            vegetarian: this.form.vegetarian,
+            glutenFree: this.form.glutenFree,
+            instructions: this.form.instructions,
+            number_of_dishes: this.form.number_of_dishes,
+            
+          });
+      console.log("recipes_result : ",this.recipes_result);
     },
     onCreate() {
       console.log("create recipe method called");
@@ -214,7 +245,10 @@ export default {
     },
     isTitleLenValid() {
       return (this.form.recipetitle.length>0 && this.form.recipetitle.length<120);
-    }
+    },
+    ViewCreation(){
+      return this.recipes_result.length >=1;
+    }    
   }
 };
 </script>
