@@ -25,7 +25,7 @@
         <li class="nav-item">
           <b-nav-item>
           <router-link :to="{ name: 'search' }">Search</router-link>
-          {{ !$root.store.username }}
+          <!-- {{ !$root.store.username }} -->
           </b-nav-item>
 
         </li>
@@ -33,7 +33,7 @@
           <b-nav-item>
 
           <span v-if="!$root.store.username">
-            Guest:
+           Hello Guest  
             <router-link :to="{ name: 'register' }">Register</router-link>
             <a></a>
             <router-link :to="{ name: 'login' }">Login</router-link>
@@ -59,6 +59,12 @@
             </b-nav-item-dropdown>
             
         </li>
+        <li class="nav-item">
+          <b-nav-item>
+          <router-link :to="{ name: 'About' }">About</router-link>
+          </b-nav-item>
+
+        </li>        
         <!-- <li class="nav-item">
 
           <form class="form-inline my-2 my-lg-0">
