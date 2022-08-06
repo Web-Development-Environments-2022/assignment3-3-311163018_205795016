@@ -39,7 +39,7 @@ export default {
     async fanilySearch(){
         try{
             const response = await this.axios.get(
-            "http://localhost:3000" +"/users/myrecipes",{withCredentials: true}
+            "http://localhost:3000" +"/users/favorites",{withCredentials: true}
         );
         console.log(response)
 
