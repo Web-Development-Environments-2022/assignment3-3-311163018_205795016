@@ -106,6 +106,7 @@ export default {
         );
         this.$root.store.logout();
         this.$root.toast("Logout", "User logged out successfully", "success");
+        localStorage.clear();
       } catch (err) {
         console.log(err);
       }      

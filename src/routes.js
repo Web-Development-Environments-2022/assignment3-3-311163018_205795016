@@ -55,7 +55,8 @@ const routes = [
   {
     path: "*",
     name: "notFound",
-    component: NotFound,
+    component: () => import("./pages/NotFoundPage"),
+    //component: NotFound,
   },
 ];
 

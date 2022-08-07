@@ -2,6 +2,10 @@
      <div class="container">
         <h1 class="title"><b>About</b></h1>
         <h2 v-show="contentExist"><b>{{ content }}</b></h2>
+        <h2 v-if="contentExist"><a href="https://web-development-environments-2022.github.io/205795016/"><b style="background: antiquewhite">The code chewer first site ever</b></a></h2>
+        <h2 v-if="contentExist"><a href="https://web-development-environments-2022.github.io/311163018"><b style="background: antiquewhite">The debugger tinder site for Iver the dog</b></a></h2>
+        <h2 v-if="contentExist"><a href="https://web-development-environments-2022.github.io/205795016_311163018/"><b style="background: antiquewhite">PacMan has never been so addictive</b></a></h2>
+        <h2 v-if="contentExist"><router-link :to="{ name: 'notFound'}"><b style="background: antiquewhite">And Our BIGGEST And MOST impressive project so far</b></router-link></h2>
 
      </div>
 </template>

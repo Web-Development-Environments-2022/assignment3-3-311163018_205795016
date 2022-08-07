@@ -72,7 +72,14 @@
         Looking for an idea ?
         <router-link to="register"> Ask hodisan</router-link>
       </div>
+        <b-container v-if="!ViewSearchResults()">
+        <h2>
+          <b-container v-if="did_i_clicked_search()">
+          No Recipes Found 
+          </b-container>
+        </h2>       
 
+      </b-container>
       <b-container v-if="ViewSearchResults()">
         <h2>
           The recipes we found for you : 
@@ -116,10 +123,12 @@ export default {
         NumberOfResults: "5",
         key_sort: "readyInMinutes"
       },
+      saved_query: "",
       recipes_result: [],
       total_number_of_results : "0",
       NumberOfResults: "5",
-      key_sort: "readyInMinutes"
+      key_sort: "readyInMinutes",
+      clicked_search: false
     };
   },
   validations: {
@@ -137,13 +146,85 @@ export default {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
+    did_i_clicked_search(){
+      return this.clicked_search;
+    },
     async Search() {
       try {
+        if (this.form.query == ""){
+          return;
+        }
+        if (this.form.query != ""){
+          this.saved_query = this.form.query;
+
+        }
+        this.clicked_search = true;
         console.log("*********************---***************");
-        console.log("http://localhost:3000" +"/recipes/search/"+this.form.query+"-"+this.form.NumberOfResults);
+        //console.log("http://localhost:3000" +"/recipes/search/"+this.saved_query+"-"+this.form.NumberOfResults);
         const response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/user/Login",
-          "http://localhost:3000" +"/recipes/search/"+this.form.query+"-"+this.form.NumberOfResults,
+          "http://localhost:3000" +"/recipes/search/"+this.saved_query+"-"+this.form.NumberOfResults,
+          // "http://132.72.65.211:80/Login",
+          // "http://132.73.84.100:80/Login",
+
+          {
+            query: this.form.query
+          }
+        );
+        // console.log(response);
+        // this.$root.loggedIn = true;
+        const res_data = response.data.results;
+        let recipes_ids_separated_by_comma ="";
+        console.log("res_data = " +res_data);
+        for (let i=0;i<res_data.length -1;i++) {
+          recipes_ids_separated_by_comma+=res_data[i].id +",";
+        }
+        recipes_ids_separated_by_comma+=res_data[res_data.length-1].id;
+        console.log(recipes_ids_separated_by_comma);
+        try {
+          console.log("*********************---***************");
+          console.log("http://localhost:3000" +"/recipes/recipes_preview/"+recipes_ids_separated_by_comma+"-"+this.form.key_sort);
+          const detailed_response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/user/Login",
+            "http://localhost:3000" +"/recipes/recipes_preview/"+recipes_ids_separated_by_comma+"-"+this.form.key_sort,
+            // "http://132.72.65.211:80/Login",
+            // "http://132.73.84.100:80/Login",
+
+            {
+              query: this.form.query
+            }
+          );
+          const detailed_data =detailed_response.data;
+          this.recipes_result = [];
+          this.recipes_result.push(...detailed_data);
+          this.total_number_of_results = response.data.total_number_of_results;
+        } catch (err) {
+          console.log(err);
+        }      
+        
+
+      
+
+        // this.$root.store.login(this.form.query);
+        // this.$router.push("/");
+      } catch (err) {
+        console.log(err);
+        // this.form.submitError = err.response.data.message;
+      }
+    },
+        async mountSearch() {
+      try {
+        if (this.saved_query == ""){
+          return;
+        }
+        if (this.form.query != ""){
+          this.saved_query = this.form.query;
+        }
+        console.log("*********************---***************");
+        //console.log("http://localhost:3000" +"/recipes/search/"+this.saved_query+"-"+this.form.NumberOfResults);
+        const response = await this.axios.get(
+          // "https://test-for-3-2.herokuapp.com/user/Login",
+          "http://localhost:3000" +"/recipes/search/"+this.saved_query+"-"+this.form.NumberOfResults,
           // "http://132.72.65.211:80/Login",
           // "http://132.73.84.100:80/Login",
 
@@ -201,8 +282,24 @@ export default {
       }
       console.log("search method go");
       this.Search();
+    },
+  },
+  mounted: function(){
+    if(localStorage.username){
+      if(localStorage.query){
+        this.saved_query = localStorage.query;
+        } 
+      console.log(this.saved_query);
+      this.$nextTick(this.mountSearch);
     }
-  }
+  },
+  watch:{
+    saved_query(newQuery){
+      if (localStorage.username){
+        localStorage.query = newQuery;
+      }
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>

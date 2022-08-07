@@ -36,7 +36,7 @@ export default {
               ViewSearchResults(){
       return this.recipes_result.length >=1;
     },
-    async fanilySearch(){
+    async familySearch(){
         try{
             const response = await this.axios.get(
             "http://localhost:3000" +"/users/family",{withCredentials: true}
@@ -60,7 +60,7 @@ export default {
     },
 },
   mounted: function(){
-    this.$nextTick(this.fanilySearch)
+    this.$nextTick(this.familySearch)
   },
 };
 </script>
