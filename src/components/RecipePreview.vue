@@ -1,26 +1,30 @@
 <template>
+  <div>
 
-
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
-        <li v-if="is_glutenFree()">GlutenFree &#10003;</li>
-        <li v-if="is_vegan()"> &#x1F165; </li>
-        <li v-if="is_vegetarian()">&#x1f331;</li>
+    <router-link
+      :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+      class="recipe-preview"
+    >
+      <div class="recipe-body">
+        <img v-if="image_load" :src="recipe.image" class="recipe-image" />
       </div>
-      <ul class="recipe-overview" >
-        <li v-if="ready_time"> {{ recipe.readyInMinutes }} Minutes</li>
-        <li v-if="like_exist">{{ recipe.popularity }} &#9829; </li>
-      </ul>
-    </div>
-  </router-link>
+      <div class="recipe-footer">
+        <div :title="recipe.title" class="recipe-title">
+          {{ recipe.title }}
+          <li v-if="is_glutenFree()">GlutenFree &#10003;</li>
+          <li v-if="is_vegan()"> &#x1F165; </li>
+          <li v-if="is_vegetarian()">&#x1f331;</li>
+        </div>
+        <ul class="recipe-overview" >
+          <li v-if="ready_time"> {{ recipe.readyInMinutes }} Minutes</li>
+          <!-- <li v-if="ready_time" style='font-size:25px;'> {{ recipe.readyInMinutes }} &#9200;</li> -->
+          <li v-if="like_exist" style='font-size:40px;'>{{ recipe.popularity }} &#9829; </li>
+          <li v-if="is_favorite()" style='font-size:40px;'>&#9733; </li>
+        </ul>
+      </div>
+    </router-link>
+    <button class="button" v-if="!is_favorite()" @click="add_to_favorite"><span>Add {{ recipe.title }} to favorite &#9734;</span></button>
+  </div>
 </template>
 
 <script>
@@ -45,12 +49,17 @@ export default {
         like_exist: true,
         vegetarian: false,
         vegan : false,
-        glutenFree: false
+        glutenFree: false,
+        favorite: false
     };
   },
   props: {
     recipe: {
       type: Object,
+      required: true
+    },
+    favorite_list: {
+      type: Array,
       required: true
     }
 
@@ -88,6 +97,17 @@ export default {
     },
     is_vegetarian(){
       return this.recipe.vegetarian;
+    },
+    is_favorite(){
+      for (var i=0;i<this.favorite_list[0].length;i++){
+        if(this.favorite_list[0][i].id == this.recipe.id) {
+          return true;
+        }
+      }
+      return false;
+    },
+    add_to_favorite(){
+      console.log("YO - NEED TO IMPLEMENT IT !")
     }
   }
 };
@@ -167,5 +187,38 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
+}
+.button {
+  transition-duration: 0.4s;
+  border-radius: 5%;
+}
+
+.button:hover {
+  border-radius: 0%;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 </style>

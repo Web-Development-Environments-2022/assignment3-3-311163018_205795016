@@ -91,7 +91,7 @@
 
         <div class="row row-cols-1 row-cols-md-2">
           <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
-              <RecipePreview class="recipePreview" :recipe="r" />
+              <RecipePreview class="recipePreview" :recipe="r" :favorite_list = favorite_recipes />
           </div>
         </div>
       </b-container>
@@ -133,7 +133,8 @@ export default {
       total_number_of_results : "0",
       NumberOfResults: "5",
       key_sort: "readyInMinutes",
-      clicked_search: false
+      clicked_search: false,
+      favorite_recipes: []
     };
   },
   validations: {
@@ -210,6 +211,23 @@ export default {
         // this.form.submitError = err.response.data.message;
       }
     },
+    async get_user_favorite_recipes_list(){
+        try{
+            const response = await this.axios.get(
+            "http://localhost:3000" +"/users/favorites",{withCredentials: true}
+        );
+
+        const res_data = response.data;
+        this.favorite_recipes = [];
+        this.favorite_recipes.push(res_data);
+        console.log("src\pages\SearchPage.vue, ROW 223, this.favorite_recipes:",this.favorite_recipes);
+    }
+     catch (err) {
+        console.log("src\pages\SearchPage.vue, ROW 226, err.response:",err.response);
+        console.log(err);
+        // this.form.submitError = err.response.data.message;
+      }      
+    },
     async mountSearch() {
       try {
         if (this.saved_query == ""){
@@ -278,6 +296,7 @@ export default {
         return;
       }
       console.log("search method go");
+      this.get_user_favorite_recipes_list();
       this.Search();
     },
   },
@@ -288,6 +307,7 @@ export default {
         } 
       console.log(this.saved_query);
       this.$nextTick(this.mountSearch);
+      this.$nextTick(this.get_user_favorite_recipes_list);
     }
   },
   watch:{
