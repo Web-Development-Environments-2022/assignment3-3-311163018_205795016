@@ -106,10 +106,24 @@ export default {
       }
       return false;
     },
-    add_to_favorite(){
-      console.log("YO - NEED TO IMPLEMENT IT !")
-    }
-  }
+    async add_to_favorite(){
+      // console.log("YO - NEED TO IMPLEMENT IT !")
+      try{
+          const response = await this.axios.post(
+          "http://localhost:3000" +"/users/favorites",
+          {
+            recipeId:this.recipe.id
+          },{withCredentials: true}
+        );
+        console.log(response)
+        }
+         catch (err) {
+        console.log(err.response);
+        console.log(err);
+        // this.form.submitError = err.response.data.message;
+      }
+  },
+}
 };
 </script>
 

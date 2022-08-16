@@ -1,6 +1,7 @@
 <template>
-  <div class="container">
-    <h1 class="title">Main Page</h1>
+  <div class="row">
+    <v-col class="column" cols="12" md="3">
+    <h1 class="title">Main Page</h1><br>
     <!-- <div class="col no-gutter"> -->
       <!-- <div class="leftside no-gutter"> -->
     
@@ -9,7 +10,7 @@
             Recipes just for you
           </h2>       
 
-          <div class="row row-cols-md-3 ">
+          <div class="col row-cols-md-1">
             <div class="col md-3" v-for="r in recipes_result.slice(0,3)" :key="r.id">
                 <RecipeRandomPreview class="recipePreview" :recipe="r" />
 
@@ -19,12 +20,14 @@
         
         </b-container>
           <div>
-            <br><br><br>
+            <br><br>
             <b-button pill variant="info" @click="randomSearch()">Random</b-button>
           </div>
       <!-- </div> -->
     <!-- </div> -->
-    <div class="col no-gutter">
+    </v-col>
+    <v-col class="column" cols="12" md="3">
+    <div class="col no-gutter"><br><br>
       <!-- <div class = "rightside no-gutter"> -->
         <div v-if="!$root.store.username">
         <LoginPageComp></LoginPageComp>
@@ -38,8 +41,8 @@
             Last Recipes you watched:
           </h2> 
         <b-container v-if="ViewSearchResults()">
-        <div class="row row-cols-md-3 ">
-          <div class="col md-3" v-for="r in recipes_result[3]" :key="r.id">
+        <div class="col row-cols-md-2">
+          <div class="col col-md-9" v-for="r in recipes_result[3]" :key="r.id">
               <RecipeRandomPreview  class="recipePreview" :recipe="r" />
           </div>
         </div>
@@ -65,6 +68,7 @@
     >
       Centeredasdasdad
     </div>-->
+    </v-col>
   </div>
 </template>
 
@@ -146,10 +150,12 @@ export default {
   pointer-events: none;
   cursor: default;
 }
-.rightside, .leftside{
-  height: 100vh;
-  width: 100%;
-  
+h1 {
+  margin-left: 25px;
+}
+.column {
+  padding-left: 280px;
+
 }
 // .leftside{
 //   background: red;

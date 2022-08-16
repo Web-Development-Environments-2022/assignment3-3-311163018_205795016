@@ -12,10 +12,10 @@
       <div :title="recipe.title" class="recipe-title">
         {{ recipe.title }}
       </div>
-      <ul class="recipe-overview" >
+      <!-- <ul class="recipe-overview" >
         <li v-if="ready_time"> {{ recipe.readyInMinutes }} minutes </li>
         <li v-if="like_exist">{{ recipe.aggregateLikes }} likes </li>
-      </ul>
+      </ul> -->
     </div>
   </router-link>
 </template>
@@ -26,12 +26,7 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
-    // this.recipe.readyInMinutes.then((i) => {
-    //   this.ready_time =true;
-    // });
-    // this.recipe.aggregateLikes.then((i) => {
-    //   this.like_exist =true;
-    // });    
+ 
   },
   data() {
     return {
@@ -46,29 +41,6 @@ export default {
       required: true
     }
 
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // readyInMinutes: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // aggregateLikes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
   }
 };
 </script>
