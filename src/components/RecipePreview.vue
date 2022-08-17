@@ -9,21 +9,25 @@
         <img v-if="image_load" :src="recipe.image" class="recipe-image" />
       </div>
       <div class="recipe-footer">
-        <div :title="recipe.title" class="recipe-title">
-          {{ recipe.title }}
+        <div :title="recipe.title" class="recipe-title" style='font-size:20px;'>
+          <b>{{ recipe.title }}</b>
           <li v-if="is_glutenFree()">GlutenFree &#10003;</li>
           <li v-if="is_vegan()"> &#x1F165; </li>
           <li v-if="is_vegetarian()">&#x1f331;</li>
         </div>
         <ul class="recipe-overview" >
-          <li v-if="ready_time"> {{ recipe.readyInMinutes }} Minutes</li>
+          <li v-if="ready_time" style='font-size:20px;'> {{ recipe.readyInMinutes }} Minutes</li>
           <!-- <li v-if="ready_time" style='font-size:25px;'> {{ recipe.readyInMinutes }} &#9200;</li> -->
-          <li v-if="like_exist" style='font-size:40px;'>{{ recipe.popularity }} &#9829; </li>
-          <li v-if="is_favorite()" style='font-size:40px;'>&#9733; </li>
+          <li v-if="like_exist" style='font-size:20px;'>{{ recipe.popularity }} &#9829; </li>
         </ul>
       </div>
     </router-link>
-    <button class="button" v-if="!is_favorite()" @click="add_to_favorite"><span>Add {{ recipe.title }} to favorite &#9734;</span></button>
+    <ul class="watched_favorite"> 
+      <li v-if="is_watched()" style='font-size:50px;'>&#128065;</li>
+      <li v-if="is_favorite()" style='font-size:50px;'>&#9733; </li>
+      <li v-else-if="is_user_login()" class="hovertext" data-hover="Add to favorite" @click="add_to_favorite" >&#9734; </li>
+      <!-- <li> <button class="button" v-if="!is_favorite()" @click="add_to_favorite"><span>Add {{ recipe.title }} to favorite &#9734;</span></button></li> -->
+    </ul>
   </div>
 </template>
 
@@ -50,7 +54,8 @@ export default {
         vegetarian: false,
         vegan : false,
         glutenFree: false,
-        favorite: false
+        favorite: false,
+        watched: false
     };
   },
   props: {
@@ -59,6 +64,10 @@ export default {
       required: true
     },
     favorite_list: {
+      type: Array,
+      required: true
+    },
+    watched_ids_list: {
       type: Array,
       required: true
     }
@@ -106,21 +115,39 @@ export default {
       }
       return false;
     },
-    async add_to_favorite(){
-      // console.log("YO - NEED TO IMPLEMENT IT !")
-      try{
-          const response = await this.axios.post(
-          "http://localhost:3000" +"/users/favorites",
-          {
-            recipeId:this.recipe.id
-          },{withCredentials: true}
-        );
-        console.log(response)
+    is_watched(){
+      if (this.watched_ids_list == []){
+        return false
+      }
+      for (var i=0;i<this.watched_ids_list[0].length;i++){
+        if(this.watched_ids_list[0][i].recipe_id == this.recipe.id) {
+          return true;
         }
-         catch (err) {
-        console.log(err.response);
+      }
+      return false;
+    },
+    is_user_login(){
+      try{
+        if (this.$root.store.username != null){
+          return true;
+        }
+        return false;
+      }catch(err){
+        return false;
+      }
+    } ,   
+    async add_to_favorite(){
+      try{
+          if (this.$root.store.username!= null){
+            const response = await this.axios.post(
+            "http://localhost:3000" +"/users/favorites",
+            {
+              recipeId:this.recipe.id
+            },{withCredentials: true}
+          );
+          }
+        }catch (err) {
         console.log(err);
-        // this.form.submitError = err.response.data.message;
       }
   },
 }
@@ -134,6 +161,7 @@ export default {
   height: 100%;
   position: relative;
   margin: 10px 10px;
+  border-top: 2px dotted black;
 }
 .recipe-preview > .recipe-body {
   width: 100%;
@@ -169,6 +197,7 @@ export default {
   overflow: visible;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  color: black;
 }
 
 .recipe-preview .recipe-footer ul.recipe-overview {
@@ -189,7 +218,20 @@ export default {
   table-layout: fixed;
   margin-bottom: 0px;
 }
-
+ul.watched_favorite li {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  width: 90px;
+  display: table-cell;
+  text-align: center;
+  border-bottom: 1px dotted black;
+  
+}
 .recipe-preview .recipe-footer ul.recipe-overview li {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -201,6 +243,7 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
+  color: black;
 }
 .button {
   transition-duration: 0.4s;
@@ -234,5 +277,38 @@ export default {
 .button:hover span:after {
   opacity: 1;
   right: 0;
+}
+.hovertext {
+  position: relative;
+  font-size:50px;
+}
+
+.hovertext:before {
+  content: attr(data-hover);
+  visibility: hidden;
+  opacity: 0;
+  width: 140px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  transition: opacity 1s ease-in-out;
+
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 110%;
+  font-size:30px;
+}
+
+.hovertext:hover {
+  border-radius: 0%;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.hovertext:hover:before {
+  opacity: 1;
+  visibility: visible;
 }
 </style>
