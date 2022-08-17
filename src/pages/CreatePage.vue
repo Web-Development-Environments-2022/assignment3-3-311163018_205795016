@@ -90,6 +90,20 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
+      <b-form-group
+        id="input-group"
+        label-cols-sm="3"
+        label="ingredients:"
+        label-for="foringredients"
+      >
+        <b-form-input
+          v-model="$v.form.ingredients.$model"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          ingredients is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button type="submit" variant="primary" style="width:250px;" class="ml-5 w-75">Create</b-button>
     </b-form>
@@ -101,7 +115,7 @@
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
     </b-card> -->
   
-    <b-container v-if="ViewCreation">
+    <b-container v-if="ViewCreation()">
       <h2>
         Creating is a wonderful felling ! <br> Enjoy your creation : 
       </h2>       
@@ -136,6 +150,7 @@ export default {
         glutenFree: false,
         instructions: "",
         number_of_dishes: "",
+        ingredients: "",
         submitError: undefined
       },
       recipes_result : [],
@@ -155,7 +170,10 @@ export default {
         required
       },
       number_of_dishes: {
-        required,
+        required
+      },
+      ingredients: {
+        required
       }
     }
   },
@@ -182,6 +200,7 @@ export default {
             glutenFree: this.form.glutenFree,
             instructions: this.form.instructions,
             number_of_dishes: this.form.number_of_dishes,
+            ingredients: this.form.ingredients
             
           },{withCredentials: true}
         );
@@ -202,6 +221,7 @@ export default {
             glutenFree: this.form.glutenFree,
             instructions: this.form.instructions,
             number_of_dishes: this.form.number_of_dishes,
+            ingredients: this.form.ingredients
             
           });
       console.log("recipes_result : ",this.recipes_result);
@@ -237,6 +257,7 @@ export default {
         glutenFree: false,
         instructions: "",
         number_of_dishes: 0,
+        ingredients: "",
         submitError: undefined
       };
       this.$nextTick(() => {

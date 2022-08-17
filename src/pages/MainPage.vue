@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <v-col class="column" cols="12" md="3">
+    <v-col class="column" cols="6" md="3">
     <h1 class="title">Main Page</h1><br>
     <!-- <div class="col no-gutter"> -->
       <!-- <div class="leftside no-gutter"> -->
@@ -11,7 +11,7 @@
           </h2>       
 
           <div class="col row-cols-md-1">
-            <div class="col md-3" v-for="r in recipes_result.slice(0,3)" :key="r.id">
+            <div class="col col-md-6" v-for="r in recipes_result.slice(0,3)" :key="r.id">
                 <RecipeRandomPreview class="recipePreview" :recipe="r" />
 
             </div>
@@ -26,7 +26,7 @@
       <!-- </div> -->
     <!-- </div> -->
     </v-col>
-    <v-col class="column" cols="12" md="3">
+    <v-col class="column" cols="6" md="3">
     <div class="col no-gutter"><br><br>
       <!-- <div class = "rightside no-gutter"> -->
         <div v-if="!$root.store.username">
@@ -154,7 +154,7 @@ h1 {
   margin-left: 25px;
 }
 .column {
-  padding-left: 280px;
+  padding-left: 180px;
 
 }
 // .leftside{
