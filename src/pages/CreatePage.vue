@@ -115,14 +115,14 @@
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
     </b-card> -->
   
-    <b-container v-if="ViewCreation()">
+    <b-container v-if="ViewCreation">
       <h2>
         Creating is a wonderful felling ! <br> Enjoy your creation : 
       </h2>       
 
       <div class="row row-cols-1 row-cols-md-2">
         <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
-            <RecipePreview class="recipePreview" :recipe="r" />
+            <RecipeRandomPreview class="recipePreview" :recipe="r" />
         </div>
       </div>
     </b-container>
@@ -131,11 +131,11 @@
 </template>
 <script>
 import { required } from "vuelidate/lib/validators";
-import RecipePreview from "../components/RecipePreview";
+import RecipeRandomPreview from "../components/RecipeRandomPreview";
 export default {
   name: "CreateRecipe",
   components: {
-    RecipePreview
+    RecipeRandomPreview
   }, 
   data() {
     return {
@@ -226,7 +226,6 @@ export default {
             ingredients: this.form.ingredients
             
           });
-      console.log("recipes_result : ",this.recipes_result);
     },
     onCreate() {
       console.log("create recipe method called");
@@ -236,15 +235,9 @@ export default {
       }
       console.log("create recipe method go");
       this.form.recipeid = (Date.now()%10000000);//unique ID ;-)
-      console.log("form.glutenFree :",this.form.glutenFree);
       if (this.form.glutenFree) {this.form.glutenFree =1;} else {this.form.glutenFree =0};
-      console.log("form.glutenFree :",this.form.glutenFree);
-      console.log("form.vegetarian :",this.form.vegetarian);
       if (this.form.vegetarian) {this.form.vegetarian =1;} else {this.form.vegetarian =0};
-      console.log("form.vegetarian :",this.form.vegetarian);
-      console.log("form.vegan :",this.form.vegan);
       if (this.form.vegan) {this.form.vegan =1;} else {this.form.vegan =0};
-      console.log("form.vegan :",this.form.vegan);
       this.Create();
     },
     onReset() {

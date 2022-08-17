@@ -70,7 +70,7 @@
 
       <div class="mt-2">
         Looking for an idea ?
-        <router-link to="register"> Ask hodisan</router-link>
+        <router-link to="/about"> Read about us and it will help U &#128222;</router-link>
       </div>
         <b-container v-if="!ViewSearchResults()">
         <h2>

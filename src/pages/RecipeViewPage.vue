@@ -9,7 +9,7 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-              <b-button pill variant="info" @click="I_like_it()">Love it!</b-button>
+              <!-- <b-button pill variant="info" @click="I_like_it()">Love it!</b-button> -->
               <div><b>Ready in {{ recipe.readyInMinutes }} minutes</b></div>
               <div><b>Likes: {{ recipe.popularity }} likes</b></div>
               <div><b>Servings: {{ recipe.servings }} servings</b></div>
@@ -24,7 +24,7 @@
               </li></div>
               <div v-if="!is_it()">
               <li
-                v-for="(r, index) in recipe.extendedIngredients.split(',')"
+                v-for="(r, index) in this.extendedIngredients_as_string_by_comma"
                 :key="index + '_' + r.id"
               >
                  <div v-if="!r.original">{{r}}</div>
@@ -57,11 +57,12 @@ export default {
   data() {
     return {
       recipe: null,
-      extendedIngredients_list: []
+      extendedIngredients_as_string_by_comma :[]
     };
   },
 
     async created() {
+      
       try {
         let response;
         // response = this.$route.params.response;
@@ -113,24 +114,20 @@ export default {
         this.recipe = _recipe;
 
         console.log("102, this.recipe:",this.recipe);
-        console.log("103, response.data:",response.data);    
+        console.log("103, response.data:",response.data); 
+        if (!Array.isArray(this.recipe.extendedIngredients)){
+          this.extendedIngredients_as_string_by_comma = this.recipe.extendedIngredients.split(',');
+        }           
       } catch (error) {
         console.log(error);
       }
     },
     methods:{
       is_it(){
-        if (Array.isArray(this.extendedIngredients)){
+        if (Array.isArray(this.recipe.extendedIngredients)){
           return true;
         }
         return false;
-        // for (let i=0;i<this.extendedIngredients;i++){
-        //   console.log("this is i.original: " + i.original)
-        //   if (i.original!=null){
-        //     return true
-        //   }
-        //   return false;
-        // }
       }
 
 
