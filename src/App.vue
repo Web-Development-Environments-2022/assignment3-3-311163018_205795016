@@ -1,33 +1,17 @@
 
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link :to="{ name: 'main' }">Foodify</router-link>|
-      <router-link :to="{ name: 'search' }">Search</router-link>|
-      {{ !$root.store.username }}
-      <span v-if="!$root.store.username">
-        Guest:
-        <router-link :to="{ name: 'register' }">Register</router-link>|
-        <router-link :to="{ name: 'login' }">Login</router-link>|
-      </span>
-      <span v-else>
-        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
-      </span>
-    </div> -->
     <div id="nav">
       <ul class="nav">
         <li class="nav-item">
           <b-nav-item>
-          <router-link :to="{ name: 'main' }">Foodify</router-link>
+          <router-link :to="{ name: 'main' }"><b>Foodify &#127829;&#127843;&#127839;&#127828;</b></router-link>
           </b-nav-item>
-          <!-- <a class="nav-link active" href="#">Active</a> -->
         </li>
         <li class="nav-item">
           <b-nav-item>
-          <router-link :to="{ name: 'search' }">Search</router-link>
-          <!-- {{ !$root.store.username }} -->
+          <router-link :to="{ name: 'About' }">About</router-link>
           </b-nav-item>
-
         </li>
         <li class="nav-item">
           <b-nav-item>
@@ -40,18 +24,16 @@
           </span>
           
           <span v-else>
-            {{ $root.store.username }}: <button @click="Logout">Logout</button>
+            &#128081;{{ $root.store.username }} : <button @click="Logout">Logout</button>
             <router-link :to="{ name: 'create' }">Create Recipe</router-link>
           </span>
           </b-nav-item>
 
         </li>
-        
         <li class="nav-item" v-if="$root.store.username">
             <b-nav-item-dropdown >
-              <!-- Using 'button-content' slot -->
               <template #button-content>
-                User
+                User 
               </template>
               <b-dropdown-item ><router-link :to="{ name: 'Favorites' }">Favorites</router-link></b-dropdown-item>
               <b-dropdown-item ><router-link :to="{ name: 'Private' }">Private</router-link></b-dropdown-item>
@@ -59,12 +41,7 @@
             </b-nav-item-dropdown>
             
         </li>
-        <li class="nav-item">
-          <b-nav-item>
-          <router-link :to="{ name: 'About' }">About</router-link>
-          </b-nav-item>
-
-        </li>        
+        
         <!-- <li class="nav-item">
 
           <form class="form-inline my-2 my-lg-0">
@@ -74,6 +51,12 @@
           </form>
 
         </li> -->
+        <li class="nav-item">
+          <b-nav-item>
+          <router-link :to="{ name: 'search' }" style="position: absolute; right:10vw;"><b> Search &#128083;&#128270;</b></router-link>
+          &#127827;&#127815;&#127821;&#127817;&#127820;&#127826;
+          </b-nav-item>
+        </li>
       </ul>
       
     </div>
@@ -130,15 +113,16 @@ export default {
   color: #040705;
   min-height: 100vh;
   width: 100%;
-  background-image: url("https://t4.ftcdn.net/jpg/04/18/75/65/360_F_418756555_8rIk7lbPvAlRErWmPMeMHqilhCHzYLWW.jpg");
-  // background-repeat: no-repeat;
-  background-size: 2000px 1000px;
+  background-image: url("./assets/OmriBack.jpg");
+  // background-image: url("https://t4.ftcdn.net/jpg/04/18/75/65/360_F_418756555_8rIk7lbPvAlRErWmPMeMHqilhCHzYLWW.jpg");
+  background-repeat: no-repeat;
+  // background-size: 2000px 1000px;
 }
 
 
 #nav {
   padding: 5px;
-  background: #5d7fdd;
+  background: #C0C0C0;
 
 }
 
@@ -160,6 +144,6 @@ export default {
 }
 
 #nav a.router-link-exact-active {
-  color: #2fe288;
+  color: black;
 }
 </style>

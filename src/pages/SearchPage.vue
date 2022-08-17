@@ -55,10 +55,6 @@
         <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="form.NumberOfResults" value="15">
         <label class="form-check-label" for="inlineRadio3">15</label>
       </div>
-      <!-- <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="inf" disabled>
-        <label class="form-check-label" for="inlineRadio3">1,000,000</label>
-      </div> -->
       <br> 
       <label for="Sortrby">Sort by :</label>
       <div class="form-check form-check-inline" id="Sortby">
@@ -91,7 +87,7 @@
 
         <div class="row row-cols-1 row-cols-md-2">
           <div class="col mb-4" v-for="r in recipes_result" :key="r.id">
-              <RecipePreview class="recipePreview" :recipe="r" :favorite_list = favorite_recipes />
+              <RecipePreview class="recipePreview" :recipe="r" :favorite_list = favorite_recipes :watched_ids_list = watched_recipes />
           </div>
         </div>
       </b-container>
@@ -134,7 +130,8 @@ export default {
       NumberOfResults: "5",
       key_sort: "readyInMinutes",
       clicked_search: false,
-      favorite_recipes: []
+      favorite_recipes: [],
+      watched_recipes: []
     };
   },
   validations: {
@@ -172,7 +169,7 @@ export default {
             query: this.form.query
           }
         );
-        // this.$root.loggedIn = true;
+
         const res_data = response.data.results;
         let recipes_ids_separated_by_comma ="";
         for (let i=0;i<res_data.length -1;i++) {
@@ -201,17 +198,16 @@ export default {
           console.log(err);
         }      
         
-
-      
-
-        // this.$root.store.login(this.form.query);
-        // this.$router.push("/");
       } catch (err) {
         console.log(err);
         // this.form.submitError = err.response.data.message;
       }
     },
     async get_user_favorite_recipes_list(){
+      /**
+       * send get request to server (/users/favorites)
+       * update this.favorite_recipes (list of the favorite recipes for the logged-in user)
+       */
         try{
             const response = await this.axios.get(
             "http://localhost:3000" +"/users/favorites",{withCredentials: true}
@@ -220,14 +216,29 @@ export default {
         const res_data = response.data;
         this.favorite_recipes = [];
         this.favorite_recipes.push(res_data);
-        console.log("src\pages\SearchPage.vue, ROW 223, this.favorite_recipes:",this.favorite_recipes);
     }
      catch (err) {
-        console.log("src\pages\SearchPage.vue, ROW 226, err.response:",err.response);
         console.log(err);
-        // this.form.submitError = err.response.data.message;
       }      
     },
+    async get_user_watched_recipes_ids_list(){
+      /**
+       * 
+       * send get request to server (/users/watched)
+       * update this.watched_recipes (list of the (ids)watched recipes for the logged-in user)
+       */
+        try{
+            const response = await this.axios.get(
+            "http://localhost:3000" +"/users/watched",{withCredentials: true}
+        );
+        const res_data = response.data;
+        this.watched_recipes = [];
+        this.watched_recipes.push(res_data);
+    }
+     catch (err) {
+        console.log(err);
+      }      
+    },    
     async mountSearch() {
       try {
         if (this.saved_query == ""){
@@ -247,8 +258,6 @@ export default {
             query: this.form.query
           }
         );
-        // console.log(response);
-        // this.$root.loggedIn = true;
         const res_data = response.data.results;
         let recipes_ids_separated_by_comma ="";
         console.log("res_data = " +res_data);
@@ -278,18 +287,13 @@ export default {
           console.log(err);
         }      
         
-
-      
-
-        // this.$root.store.login(this.form.query);
-        // this.$router.push("/");
       } catch (err) {
         console.log(err);
-        // this.form.submitError = err.response.data.message;
+
       }
     },
     onSearch() {
-      // console.log("login method called");
+      console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
@@ -297,6 +301,7 @@ export default {
       }
       console.log("search method go");
       this.get_user_favorite_recipes_list();
+      this.get_user_watched_recipes_ids_list();
       this.Search();
     },
   },
@@ -308,6 +313,7 @@ export default {
       console.log(this.saved_query);
       this.$nextTick(this.mountSearch);
       this.$nextTick(this.get_user_favorite_recipes_list);
+      this.$nextTick(this.get_user_watched_recipes_ids_list);
     }
   },
   watch:{
