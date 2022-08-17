@@ -108,8 +108,12 @@ export default {
       return this.recipe.vegetarian;
     },
     is_favorite(){
+      if (this.favorite){
+        return true;
+      }
       for (var i=0;i<this.favorite_list[0].length;i++){
         if(this.favorite_list[0][i].id == this.recipe.id) {
+          this.favorite = true;
           return true;
         }
       }
@@ -119,8 +123,12 @@ export default {
       if (this.watched_ids_list == []){
         return false
       }
+      if (this.watched){
+        return true;
+      }
       for (var i=0;i<this.watched_ids_list[0].length;i++){
         if(this.watched_ids_list[0][i].recipe_id == this.recipe.id) {
+          this.watched = true;
           return true;
         }
       }
@@ -149,6 +157,10 @@ export default {
         }catch (err) {
         console.log(err);
       }
+      this.favorite =  true;
+
+      
+      
   },
 }
 };
