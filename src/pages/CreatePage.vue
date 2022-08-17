@@ -185,6 +185,8 @@ export default {
     async Create() {
       console.log("id:",this.form.recipeid);
       try {
+        const ingredients_array = this.form.ingredients.split(",");
+        console.log(ingredients_array)
         const response = await this.axios.post(
           // this.$root.store.server_domain + "/recipes/createrecipe",
           "http://localhost:3000" +"/recipes/createrecipe",          
@@ -200,7 +202,7 @@ export default {
             glutenFree: this.form.glutenFree,
             instructions: this.form.instructions,
             number_of_dishes: this.form.number_of_dishes,
-            ingredients: this.form.ingredients
+            ingredients: ingredients_array
             
           },{withCredentials: true}
         );

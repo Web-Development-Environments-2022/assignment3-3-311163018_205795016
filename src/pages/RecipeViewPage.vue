@@ -9,19 +9,29 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
+              <b-button pill variant="info" @click="I_like_it()">Love it!</b-button>
               <div><b>Ready in {{ recipe.readyInMinutes }} minutes</b></div>
               <div><b>Likes: {{ recipe.popularity }} likes</b></div>
               <div><b>Servings: {{ recipe.servings }} servings</b></div>
             </div><b>
-            Ingredients:
-            <ul>
+            Ingredients
+            <ul><div v-if="is_it()">
               <li
                 v-for="(r, index) in recipe.extendedIngredients"
                 :key="index + '_' + r.id"
               >
-                {{ r.original }}
-              </li>
-            </ul></b>
+                <div v-if="r.original">{{r.original}}</div>
+              </li></div>
+              <div v-if="!is_it()">
+              <li
+                v-for="(r, index) in recipe.extendedIngredients.split(',')"
+                :key="index + '_' + r.id"
+              >
+                 <div v-if="!r.original">{{r}}</div>
+              </li></div>
+
+            </ul></b>        
+
           </div>
           <div class="wrapped" v-show="recipe.instructions">
             Instructions:
@@ -36,7 +46,7 @@
       <!-- <pre>
       {{ $route.params }}
       {{ recipe }}
-    </pre
+      </pre
       > -->
     </div>
   </div>
@@ -46,65 +56,86 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
+      extendedIngredients_list: []
     };
   },
-  async created() {
-    try {
-      let response;
-      // response = this.$route.params.response;
 
+    async created() {
       try {
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          // this.$root.store.server_domain + "/recipes/info",
-           "http://localhost:3000"+"/recipes/"+this.$route.params.recipeId, {withCredentials: true}
-          // {
-          //   // params: { id: this.$route.params.recipeId }
-          // }
-        );
-        if (response.status !== 200) {this.$router.replace("/NotFound")};
+        let response;
+        // response = this.$route.params.response;
+
+        try {
+          response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/recipes/info",
+            // this.$root.store.server_domain + "/recipes/info",
+            "http://localhost:3000"+"/recipes/"+this.$route.params.recipeId, {withCredentials: true}
+            // {
+            //   // params: { id: this.$route.params.recipeId }
+            // }
+          );
+          if (response.status !== 200) {this.$router.replace("/NotFound")};
+        } catch (error) {
+          this.$router.replace("/NotFound");
+          return;
+        }
+        let {
+          analyzedInstructions,
+          instructions,
+          extendedIngredients,
+          popularity,
+          readyInMinutes,
+          image,
+          servings,
+          title
+        } = response.data;
+        console.log("81, response.data:",response.data);
+        let _instructions = analyzedInstructions
+        //   .map((fstep) => {
+        //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+        //     return fstep.steps;
+        //   })
+        //   .reduce((a, b) => [...a, ...b], []);
+
+        let _recipe = {
+          instructions,
+          _instructions,
+          analyzedInstructions,
+          extendedIngredients,
+          popularity,
+          readyInMinutes,
+          image,
+          servings,
+          title
+        };
+
+        this.recipe = _recipe;
+
+        console.log("102, this.recipe:",this.recipe);
+        console.log("103, response.data:",response.data);    
       } catch (error) {
-        this.$router.replace("/NotFound");
-        return;
+        console.log(error);
       }
-      let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        popularity,
-        readyInMinutes,
-        image,
-        servings,
-        title
-      } = response.data;
-      console.log("81, response.data:",response.data);
-      let _instructions = analyzedInstructions
-      //   .map((fstep) => {
-      //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-      //     return fstep.steps;
-      //   })
-      //   .reduce((a, b) => [...a, ...b], []);
+    },
+    methods:{
+      is_it(){
+        if (Array.isArray(this.extendedIngredients)){
+          return true;
+        }
+        return false;
+        // for (let i=0;i<this.extendedIngredients;i++){
+        //   console.log("this is i.original: " + i.original)
+        //   if (i.original!=null){
+        //     return true
+        //   }
+        //   return false;
+        // }
+      }
 
-      let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        popularity,
-        readyInMinutes,
-        image,
-        servings,
-        title
-      };
 
-      this.recipe = _recipe;
-      console.log("102, this.recipe:",this.recipe);
-      console.log("103, response.data:",response.data);    
-    } catch (error) {
-      console.log(error);
     }
-  }
+    
 };
 </script>
 

@@ -11,7 +11,7 @@
           </h2>       
 
           <div class="col row-cols-md-1">
-            <div class="col col-md-6" v-for="r in recipes_result.slice(0,3)" :key="r.id">
+            <div class="col col-md-12" v-for="r in recipes_result.slice(0,3)" :key="r.id">
                 <RecipeRandomPreview class="recipePreview" :recipe="r" />
 
             </div>
